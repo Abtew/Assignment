@@ -18,11 +18,14 @@ public class CsvReader {
 	public static void main(String[] args) throws IOException {
 
 		/*
-		 ****** fetch from DB: List<String> listOfCsvFiles = ServiceLayer.getAllCsvFiles();
-		 * if(listOfCsvFiles.size() > 0) { for(String csvDoc: listOfCsvFiles){
+		 ****** fetch from any source: 
+		 *List<String> listOfCsvFiles = ServiceLayer.getAllCsvFiles();
+		 * if(listOfCsvFiles.size() > 0) { 
+		 * 	  for(String csvDoc: listOfCsvFiles){
 		 */
 
-		// Assume this file is fetched from DB:.....
+		// Assume this file is fetched from a source:.....
+		//For test purpose, it neds to create a csv file and give the path as follows
 		String csvFile = "C:\\Users\\abate\\Desktop\\new 3.csv";
 		if (checkFileExt(new File(csvFile))) {
 			List<List<String>> csvList = new ArrayList<>();
