@@ -16,16 +16,16 @@ import java.util.stream.IntStream;
 public class CsvReader {
 
 	public static void main(String[] args) throws IOException {
-
 		/*
 		 ****** fetch from any source: 
 		 *List<String> listOfCsvFiles = ServiceLayer.getAllCsvFiles();
 		 * if(listOfCsvFiles.size() > 0) { 
 		 * 	  for(String csvDoc: listOfCsvFiles){
-		 */
-
+		 */		
+		/* For test purpose, you need to create a csv file, based on the provided data points,
+		 * and put the path as follows
+		*/
 		// Assume this file is fetched from a source:.....
-		//For test purpose, it neds to create a csv file and give the path as follows
 		String csvFile = "C:\\Users\\abate\\Desktop\\new 3.csv";
 		if (checkFileExt(new File(csvFile))) {
 			List<List<String>> csvList = new ArrayList<>();
@@ -80,12 +80,11 @@ public class CsvReader {
 			List<List<String>> sortedByDuplId = checkDuplicateId(listByInsur, uidIndx, versIndx);
 
 			// sort by First name and Last name:
+			int fNameIndex = getIndex(Enums.FIRST_NAME, header);
+			int lNameIndex = getIndex(Enums.LAST_NAME, header);
 			finalSorted = sortedByDuplId.stream()
-					.sorted((o1, o2) -> o1.get(getIndex(Enums.LAST_NAME, header))
-							.compareTo(o2.get(getIndex(Enums.LAST_NAME, header))))
-					.sorted((o1, o2) -> o1.get(getIndex(Enums.FIRST_NAME, header))
-							.compareTo(o2.get(getIndex(Enums.FIRST_NAME, header))))
-					.collect(Collectors.toList());
+					.sorted((o1, o2) -> o1.get(lNameIndex).compareTo(o2.get(lNameIndex)))
+					.sorted((o1, o2) -> o1.get(fNameIndex).compareTo(o2.get(fNameIndex))).collect(Collectors.toList());
 
 			System.out.println("---- Enrolees by insurance company: " + name);
 			System.out.println(finalSorted);
@@ -108,8 +107,16 @@ public class CsvReader {
 	}
 
 	private static int getIndex(String name, List<String> header) {
-		return IntStream.range(0, header.size()).filter(i -> Objects.equals(header.get(i), name)).findFirst()
-				.orElse(-1);
+		String firstStr = name.split("\\s+")[0];
+		int columnTitleIndex = 0;
+		//capture the column title index based on first string of the title
+		for (int i = 0; i < header.size(); i++) {
+			if (header.get(i).toLowerCase().contains(firstStr.toLowerCase())) {
+				columnTitleIndex = i;
+				break;
+			}
+		}
+		return columnTitleIndex;
 	}
 
 	private static List<List<String>> checkDuplicateId(List<List<String>> listByInsur, int uId, int versIndx) {
