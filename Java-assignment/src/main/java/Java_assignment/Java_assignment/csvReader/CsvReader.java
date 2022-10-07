@@ -42,6 +42,7 @@ public class CsvReader {
 					csvList.add(Arrays.asList(raw.split(splitStr)));
 				}
 				count++;
+				
 			}
 
 			// 2. separate by insurance name and then sort by First name and Last name
