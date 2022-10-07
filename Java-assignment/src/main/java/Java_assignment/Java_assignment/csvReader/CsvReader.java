@@ -41,6 +41,7 @@ public class CsvReader {
 				} else { // Exclude column title
 					csvList.add(Arrays.asList(raw.split(splitStr)));
 				}
+				
 				count++;
 				
 			}
